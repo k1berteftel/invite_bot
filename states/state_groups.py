@@ -6,8 +6,11 @@ class startSG(StatesGroup):
     sub_date = State()
     subscription = State()
     about = State()
+    profile = State()
     card = State()
+    confirm_card = State()
     crypto = State()
+    confirm_crypto = State()
 
 
 class adminSG(StatesGroup):

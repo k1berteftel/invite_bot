@@ -28,6 +28,6 @@ def load_config(path: str | None = None) -> Config:
             admin_ids=list(map(int, env.list('admins')))
             ),
         db=database(
-            dns=env('db_dns')
+            dns=env('dns')
         )
         )

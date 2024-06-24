@@ -14,6 +14,7 @@ from dialogs import get_dialogs
 from middlewares.out_middleware import PrivateMiddleware
 from middlewares.transfer_middleware import TransferObjectsMiddleware
 from database.build import PostgresBuild
+from database.model import Base
 
 format = '[{asctime}] #{levelname:8} {filename}:' \
          '{lineno} - {name} - {message}'
@@ -32,6 +33,9 @@ config: Config = load_config()
 
 async def main():
     database = PostgresBuild(config.db.dns)
+    #await database.drop_tables(Base)
+    #await database.create_tables(Base)
+
     scheduler: AsyncIOScheduler = AsyncIOScheduler()
     scheduler.start()
     bot = Bot(token=config.bot.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))

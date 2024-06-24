@@ -10,6 +10,7 @@ class PrivateMiddleware(BaseMiddleware):
                        event: Message,
                        data: Dict[str, Any]) -> Any:
         if data["event_chat"].type != "private":
+            print('Не тот тип чата')
             return
 
         result = await handler(event, data)

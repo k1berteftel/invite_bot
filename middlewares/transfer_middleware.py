@@ -21,7 +21,7 @@ class TransferObjectsMiddleware(BaseMiddleware):
         user: User = data.get('event_from_user')
 
         if user is None:
-            return await handler(event, data)
+           return await handler(event, data)
 
         sessions: async_sessionmaker = data.get('_session')
         hub: AsyncIOScheduler = data.get('_scheduler')
