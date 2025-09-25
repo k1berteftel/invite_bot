@@ -14,7 +14,9 @@ class UsersTable(Base):
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
 
+    username: Mapped[str] = mapped_column(VARCHAR)
+    name: Mapped[str] = mapped_column(VARCHAR)
     user_id: Mapped[int] = mapped_column(BigInteger, unique=True)
     entry = mapped_column(DateTime, nullable=False)
-    subscription = mapped_column(DateTime)
+    subscription = mapped_column(DateTime, nullable=True)
     extension: Mapped[int] = mapped_column(Integer, default=0)

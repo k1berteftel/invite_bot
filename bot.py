@@ -15,6 +15,8 @@ from middlewares.out_middleware import PrivateMiddleware
 from middlewares.transfer_middleware import TransferObjectsMiddleware
 from database.build import PostgresBuild
 from database.model import Base
+from utils.start_schedulers import start_schedulers
+from database.action_data_class import DataInteraction
 
 format = '[{asctime}] #{levelname:8} {filename}:' \
          '{lineno} - {name} - {message}'
@@ -35,16 +37,21 @@ async def main():
     database = PostgresBuild(config.db.dns)
     #await database.drop_tables(Base)
     #await database.create_tables(Base)
+    sessions = database.session()
+
+    data = DataInteraction(sessions)
 
     scheduler: AsyncIOScheduler = AsyncIOScheduler()
     scheduler.start()
     bot = Bot(token=config.bot.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+
+    await start_schedulers(data, bot, scheduler)
     dp = Dispatcher()
 
     # подключаем роутеры
     dp.include_routers(*get_handlers(), *get_dialogs())
     # подключаем middleware
-    dp.update.outer_middleware(PrivateMiddleware())
+    #dp.update.outer_middleware(PrivateMiddleware())
     dp.update.middleware(TransferObjectsMiddleware())
 
     # запуск
@@ -52,7 +59,7 @@ async def main():
     await bot.delete_webhook(drop_pending_updates=True)
     setup_dialogs(dp)
     logger.info('Bot start polling')
-    await dp.start_polling(bot, _scheduler=scheduler, _session=database.session())
+    await dp.start_polling(bot, _scheduler=scheduler, _session=sessions)
 
 
 if __name__ == "__main__":

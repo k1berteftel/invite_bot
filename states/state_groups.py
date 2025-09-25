@@ -9,6 +9,7 @@ class startSG(StatesGroup):
     profile = State()
     card = State()
     confirm_card = State()
+    crypto_choose = State()
     crypto = State()
     confirm_crypto = State()
 
@@ -18,4 +19,8 @@ class adminSG(StatesGroup):
     malling = State()
     get_mail = State()
     confirm_malling = State()
+    sub_management = State()
+    user_info = State()
+    sub_change = State()
+
     
