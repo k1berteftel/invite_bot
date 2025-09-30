@@ -50,11 +50,8 @@ async def main():
 
     #"""
     user_ids = [2061815644, 1861102828, 5213815512]
-    with open('bot_users.log', 'a', encoding='utf-8') as f:
-        for user_id in user_ids:
-            user = await db.get_user(user_id)
-            f.write(f'{user.__dict__}\n\n')
-    upload_users(user_ids)
+    task = asyncio.create_task(upload_users(user_ids))
+    await task
     #"""
     dp = Dispatcher()
 
