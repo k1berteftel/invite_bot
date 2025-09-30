@@ -207,7 +207,7 @@ async def send_message(clb: CallbackQuery, btn: Button, dialog_manager: DialogMa
         users = await session.get_subscriptions()
     else:
         all_users = await session.get_users()
-        users = [user for user in all_users if not user.sub]
+        users = [user for user in all_users if not user.subscription]
     print(users)
     for user in users:
         try:
