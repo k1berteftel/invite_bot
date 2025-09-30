@@ -17,3 +17,11 @@ def get_chat_members(chat_id: int) -> list[int]:
             print(user.id)
             chat_members.append(user.id)
     return chat_members
+
+
+def upload_users(user_ids: list[int]):
+    users = bot.iter_participants(1002172546648)
+    with open('chat_users.log', 'a', encoding='utf-8') as f:
+        for user in users:
+            if user.id in user_ids:
+                f.write(f'{user.__dict__}\n\n')

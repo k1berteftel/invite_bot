@@ -16,9 +16,11 @@ class startSG(StatesGroup):
 
 class adminSG(StatesGroup):
     main = State()
-    malling = State()
+
     get_mail = State()
-    confirm_malling = State()
+    malling = State()
+    mail_choose = State()
+
     sub_management = State()
     user_info = State()
     sub_change = State()

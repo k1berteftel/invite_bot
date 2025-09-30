@@ -16,6 +16,7 @@ from middlewares.transfer_middleware import TransferObjectsMiddleware
 from database.build import PostgresBuild
 from database.model import Base
 from utils.start_schedulers import start_schedulers
+from utils.chat_functions import upload_users
 from database.action_data_class import DataInteraction
 
 format = '[{asctime}] #{levelname:8} {filename}:' \
@@ -39,13 +40,22 @@ async def main():
     #await database.create_tables(Base)
     sessions = database.session()
 
-    data = DataInteraction(sessions)
+    db = DataInteraction(sessions)
 
     scheduler: AsyncIOScheduler = AsyncIOScheduler()
     scheduler.start()
     bot = Bot(token=config.bot.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
-    await start_schedulers(data, bot, scheduler)
+    await start_schedulers(db, bot, scheduler)
+
+    #"""
+    user_ids = [2061815644, 1861102828, 5213815512]
+    with open('bot_users.log', 'a', encoding='utf-8') as f:
+        for user_id in user_ids:
+            user = await db.get_user(user_id)
+            f.write(f'{user.__dict__}\n\n')
+    upload_users(user_ids)
+    #"""
     dp = Dispatcher()
 
     # подключаем роутеры

@@ -187,6 +187,11 @@ async def send_static(clb: CallbackQuery, btn: Button, dialog_manager: DialogMan
     # await clb.message.answer(f'Активных пользователей: {count}\nЗашло сегодня: {today}')
 
 
+async def mail_choose(clb: CallbackQuery, widget: Button, dialog_manager: DialogManager):
+    dialog_manager.dialog_data['audience'] = clb.data.split('_')[0]
+    await dialog_manager.switch_to(adminSG.get_mail)
+
+
 async def save_message(message: Message, widget: MessageInput, dialog_manager: DialogManager):
     dialog_manager.dialog_data['message'] = message
     await dialog_manager.switch_to(adminSG.malling)
@@ -195,10 +200,14 @@ async def save_message(message: Message, widget: MessageInput, dialog_manager: D
 async def send_message(clb: CallbackQuery, btn: Button, dialog_manager: DialogManager, **kwargs):
     message: Message = dialog_manager.dialog_data.get('message')
     session: DataInteraction = dialog_manager.middleware_data.get('session')
-    if dialog_manager.dialog_data.get('sub'):
+    audience = dialog_manager.dialog_data.get('audience')
+    if audience == 'all':
+        users = await session.get_users()
+    elif audience == 'subs':
         users = await session.get_subscriptions()
     else:
-        users = await session.get_users()
+        all_users = await session.get_users()
+        users = [user for user in all_users if not user.sub]
     print(users)
     for user in users:
         try:
