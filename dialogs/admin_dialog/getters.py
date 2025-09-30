@@ -204,10 +204,11 @@ async def send_message(clb: CallbackQuery, btn: Button, dialog_manager: DialogMa
     if audience == 'all':
         users = await session.get_users()
     elif audience == 'subs':
-        users = await session.get_subscriptions()
+        users = [user.user_id for user in await session.get_subscriptions()]
     else:
-        all_users = await session.get_users()
-        users = [user for user in all_users if not user.subscription]
+        users = await session.get_users()
+        sub_users = await session.get_subscriptions()
+        users = [user for user in users if user not in [sub_user.user_id for sub_user in sub_users]]
     print(users)
     for user in users:
         try:
