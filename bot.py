@@ -16,7 +16,6 @@ from middlewares.transfer_middleware import TransferObjectsMiddleware
 from database.build import PostgresBuild
 from database.model import Base
 from utils.start_schedulers import start_schedulers
-from utils.chat_functions import upload_users
 from database.action_data_class import DataInteraction
 
 format = '[{asctime}] #{levelname:8} {filename}:' \
@@ -48,11 +47,11 @@ async def main():
 
     await start_schedulers(db, bot, scheduler)
 
-    #"""
+    """
     user_ids = [2061815644, 1861102828, 5213815512]
     task = asyncio.create_task(upload_users(user_ids))
     await task
-    #"""
+    """
     dp = Dispatcher()
 
     # подключаем роутеры

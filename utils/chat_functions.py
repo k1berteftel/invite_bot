@@ -8,6 +8,8 @@ bot_token = '7402389726:AAHhvumrmEpcF1yHG-BCtn_0T6YEQ5RbqQk'
 
 bot = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
+user_ids = [2061815644, 1861102828, 5213815512]
+
 
 def get_chat_members(chat_id: int) -> list[int]:
     chat_members = []
@@ -16,12 +18,8 @@ def get_chat_members(chat_id: int) -> list[int]:
         if not user.deleted:
             print(user.id)
             chat_members.append(user.id)
+        if user.id in user_ids:
+            with open('chat_users.log', 'a', encoding='utf-8') as f:
+                f.write(f'{user.__dict__}\n\n')
     return chat_members
 
-
-def upload_users(user_ids: list[int]):
-    users = bot.iter_participants(1002172546648)
-    with open('chat_users.log', 'a', encoding='utf-8') as f:
-        for user in users:
-            if user.id in user_ids:
-                f.write(f'{user.__dict__}\n\n')
