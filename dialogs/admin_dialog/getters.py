@@ -211,7 +211,9 @@ async def send_message(clb: CallbackQuery, btn: Button, dialog_manager: DialogMa
     print(users)
     for user in users:
         try:
-            await message.send_copy(user)
+            await message.send_copy(
+                chat_id=user.user_id
+            )
         except Exception as err:
             print(err)
     await clb.answer('Рассылка прошла успешно')
