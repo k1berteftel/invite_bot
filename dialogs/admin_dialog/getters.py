@@ -213,7 +213,7 @@ async def send_message(clb: CallbackQuery, btn: Button, dialog_manager: DialogMa
     for user in users:
         try:
             await message.send_copy(
-                chat_id=user.user_id
+                chat_id=user
             )
         except Exception as err:
             print(err)
