@@ -14,7 +14,7 @@ admin_dialog = Dialog(
         Column(
             SwitchTo(Const('Управление подпиской'), id='sub_manage', state=adminSG.sub_management),
             Button(Const('Получить статистику'), id='get_static', on_click=send_static),
-            SwitchTo(Const('Сделать рассылку'), id='start_malling', state=adminSG.get_mail),
+            SwitchTo(Const('Сделать рассылку'), id='start_malling', state=adminSG.mail_choose),
             Button(Const('Получить всю базу данных'), id='get_database', on_click=get_database),
             Button(Const('Получить всех подписчиков'), id='get_all_sub', on_click=get_subs_static),
             Button(Const('Удалить отсутствующих в списке'), id='clean_channels', on_click=clean_channels),
